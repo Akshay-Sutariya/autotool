@@ -12,6 +12,16 @@ output_file = "filtered_codes.txt"
 # Initialize the Telegram client
 client = TelegramClient('session_name', api_id, api_hash)
 
+# Set to store already saved codes
+saved_codes = set()
+
+# Load existing codes from the file (if it exists)
+try:
+    with open(output_file, "r") as f:
+        saved_codes = set(line.strip() for line in f if line.strip())
+except FileNotFoundError:
+    pass  # File doesn't exist yet, no need to load anything
+
 # This will be called when a new message is received
 @client.on(events.NewMessage(chats=channel_username))
 async def handler(event):
@@ -26,8 +36,12 @@ async def handler(event):
         if codes:
             with open(output_file, "a") as f:
                 for code in codes:
-                    f.write(f"{code}\n")
-            print(f"Saved code: {codes[0]}")  # Just show the first code saved for feedback
+                    if code not in saved_codes:  # Check for duplicates
+                        f.write(f"{code}\n")
+                        saved_codes.add(code)  # Add the new code to the set
+                        print(f"Saved code: {code}")
+                    else:
+                        print(f"Duplicate code skipped: {code}")
         else:
             print("No valid codes found in the message.")
 
