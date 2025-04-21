@@ -2,9 +2,9 @@ from telethon import TelegramClient, events
 import re
 
 # Replace with your Telegram API credentials
-api_id = '21485720'
-api_hash = '5c812a333c60bc5c7b6a244c7969f21a'
-channel_username = '@imcooladi4all'  # E.g., '@example_channel'
+api_id = '*********'
+api_hash = '**********************'
+channel_username = '@**********'  # E.g., '@example_channel'
 
 # File to save the filtered messages directly
 output_file = "filtered_codes.txt"
